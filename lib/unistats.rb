@@ -5,7 +5,7 @@ class Unistats
   include HTTParty
   format :json
   
-  base_uri 'data.unistats.ac.uk/api/KIS'
+  base_uri 'data.unistats.ac.uk/api/V3/KIS'
   
   # Initialises the Unistats class and configures authentication with an
   # access token - obtain one at http://dataportal.unistats.ac.uk/Account/Register
