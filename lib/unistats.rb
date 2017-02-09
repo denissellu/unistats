@@ -94,8 +94,8 @@ class Unistats
   # Params:
   # +institution+:: the UKPRN identifier for an institution
   # +course+:: the KIS idea for a course, unique to a course provider (UKPRN)
-  def course_statistics(institution, course, options={})
-    self.class.get("/Institution/#{institution}/Course/#{course}/Statistics.json", options)
+  def course_statistics(institution, kiscourseid, kismode, options={})
+    self.class.get("/Institution/#{institution}/Course/#{kiscourseid}/#{kismode}.json", options)
   end
 end
     
