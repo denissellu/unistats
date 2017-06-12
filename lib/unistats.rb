@@ -61,14 +61,14 @@ class Unistats
   # +course+:: the KIS ID for a course, unique to a course provider (UKPRN)
   # +recursive+:: (boolean) sets whether to use the other course data methods
   # to find out more details about this course (e.g. statistics, stages)
-  def course(institution, course, kismode, recursive=true)
-    response = self.class.get("/Institution/#{institution}/Course/#{course}/#{kismode}.json")
-    #if recursive
-      #response.merge!({:accreditations => course_accreditations(institution, course)})
-      #response.merge!({:stages => course_stages(institution, course)})
-      #response.merge!({:statistics => course_statistics(institution, course)})
-    #end
-    response
+  def course(institution, course, kismode, recursive=true, options={})
+    response = self.class.get("/Institution/#{institution}/Course/#{course}/#{kismode}.json", options)
+    if recursive
+      response.merge!({:accreditations => course_accreditations(institution, course, kismode)})
+      response.merge!({:stages => course_stages(institution, course, kismode)})
+      response.merge!({:statistics => course_statistics(institution, course, kismode)})
+    end
+    response.parsed_response
   end
 
   # Returns information on accreditations for a specific course at an
@@ -76,8 +76,8 @@ class Unistats
   # Params:
   # +institution+:: the UKPRN identifier for an institution
   # +course+:: the KIS ID for a course, unique to a course provider (UKPRN)
-  def course_accreditations(institution, course, options={})
-    self.class.get("/Institution/#{institution}/Course/#{course}/Accreditation.json", options)
+  def course_accreditations(institution, course, kismode, options={})
+    self.class.get("/Institution/#{institution}/Course/#{course}/#{kismode}/Accreditation.json", options).parsed_response
   end
 
   # Returns information on stages of a specific course at an
@@ -85,8 +85,8 @@ class Unistats
   # Params:
   # +institution+:: the UKPRN identifier for an institution
   # +course+:: the KIS idea for a course, unique to a course provider (UKPRN)
-  def course_stages(institution, course, options={})
-    self.class.get("/Institution/#{institution}/Course/#{course}/Stages.json", options)
+  def course_stages(institution, course, kismode, options={})
+    self.class.get("/Institution/#{institution}/Course/#{course}/#{kismode}/Stages.json", options).parsed_response
   end
 
   # Returns statistics aboout a specific course at an institution as an object
@@ -95,8 +95,6 @@ class Unistats
   # +institution+:: the UKPRN identifier for an institution
   # +course+:: the KIS idea for a course, unique to a course provider (UKPRN)
   def course_statistics(institution, kiscourseid, kismode, options={})
-    self.class.get("/Institution/#{institution}/Course/#{kiscourseid}/#{kismode}.json", options)
+    self.class.get("/Institution/#{institution}/Course/#{kiscourseid}/#{kismode}.json", options).parsed_response
   end
 end
-
-
