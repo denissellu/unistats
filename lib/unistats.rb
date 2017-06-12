@@ -61,13 +61,13 @@ class Unistats
   # +course+:: the KIS ID for a course, unique to a course provider (UKPRN)
   # +recursive+:: (boolean) sets whether to use the other course data methods
   # to find out more details about this course (e.g. statistics, stages)
-  def course(institution, course, kismode, recursive=true, options={})
-    response = self.class.get("/Institution/#{institution}/Course/#{course}/#{kismode}.json", options)
-    if recursive
-      response.merge!({:accreditations => course_accreditations(institution, course)})
-      response.merge!({:stages => course_stages(institution, course)})
-      response.merge!({:statistics => course_statistics(institution, course)})
-    end
+  def course(institution, course, kismode, recursive=true)
+    response = self.class.get("/Institution/#{institution}/Course/#{course}/#{kismode}.json")
+    #if recursive
+      #response.merge!({:accreditations => course_accreditations(institution, course)})
+      #response.merge!({:stages => course_stages(institution, course)})
+      #response.merge!({:statistics => course_statistics(institution, course)})
+    #end
     response
   end
 
